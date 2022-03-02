@@ -44,8 +44,8 @@ def GetDefaultConfigLine(phoneid):
     dic['StartTimeActivation'] = 1
     dic['StopTimeActivation'] = 3
     dic['AllTime'] = "True"
-    dic['ActivateWifi'] = 0
-    dic['ActivateBlueTooth'] = 0
+    dic['ActivateWifi'] = 1
+    dic['ActivateBlueTooth'] = 1
     dic['ActivateWifiDateTime'] = "01-01-99 16:40:19"
     dic['ActivateBlueToothDateTime'] = "01-01-99 16:40:19"
     dic['ActivateWifiDuration'] = 0
