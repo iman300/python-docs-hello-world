@@ -292,7 +292,7 @@ def setup():
                            serialNmber, simOperator, date_time_obj, manufacturer, model, version, versionRelease)
 
 
-@ app.route("/location", methods=['POST'])
+@app.route("/location", methods=['POST'])
 def location():
 
     data = request.get_data()
@@ -320,7 +320,7 @@ def location():
     return InsertLocation(Longitute, Latitude, date_time_obj, phoneid, accuracy, speed, sendTimeStr)
 
 
-@ app.route("/getName")
+@app.route("/getName")
 def getName():
     dic = {}
     dic["name"] = "xxxx"
@@ -379,4 +379,4 @@ def hello():
         return (str(ex))
 
 
-app.run()
+# app.run()
