@@ -38,7 +38,7 @@ def GetDefaultConfigLine(phoneid):
     dic = {}
     dic['phoneid'] = phoneid
     dic['wifiInterval'] = 2
-    dic['BluetoothInterval'] = 2
+    dic['BluetoothInterval'] = 1
     dic['locationInterval'] = 1
     dic['checkConfigInterval'] = 3
     dic['StartTimeActivation'] = 1
