@@ -20,13 +20,13 @@ sCon = 'DRIVER='+driver+';SERVER=tcp:'+server + \
     ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password
 
 
-def InsertWifi(ssid, mac, level, phoneid, dt):
+def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
     try:
         con = pyodbc.connect(sCon)
         mycursor = con.cursor()
-        sql = "INSERT INTO dbo.Wifi(ssid, mac, level, phoneid,dt) VALUES (?,?,?,?,?) "
+        sql = "INSERT INTO dbo.Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (?,?,?,?,?,?) "
 
-        mycursor.execute(sql, (ssid, mac, level, phoneid, dt))
+        mycursor.execute(sql, (ssid, mac, level, phoneid, dt, capabilities))
         con.commit()
         con.close()
         return "Succeded"
@@ -261,11 +261,12 @@ def wifi():
     level = d['level']
     phoneid = d['phoneid']
     dt = d['dt']
+    capabilities = d['capabilities']
     try:
         date_time_obj = datetime. strptime(dt, '%d/%m/%y %H:%M:%S')
     except Exception as ex:
         print(ex)
-    return InsertWifi(ssid, mac, level, phoneid, date_time_obj)
+    return InsertWifi(ssid, mac, level, phoneid, date_time_obj, capabilities)
 
 
 @app.route("/setup", methods=['POST'])
