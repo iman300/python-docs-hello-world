@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\.azure"
   ],
+  "SelectedNode": "\\.azure",
   "PreviewInSolutionExplorer": false
 }
