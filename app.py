@@ -130,13 +130,13 @@ def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, m
         return str(ex)
 
 
-def InsertBluetooth(name, code, moti, address, rssi, phoneid, dt):
+def InsertBluetooth(name, code, address, rssi, phoneid, dt):
     try:
         con = pyodbc.connect(sCon)
         mycursor = con.cursor()
-        sql = "INSERT INTO dbo.Bluetooth(namex, codex, motix, addressx,rssi,phoneid,dt) VALUES (?,?,?,?,?,?,?) "
+        sql = "INSERT INTO dbo.Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (?,?,?,?,?,?) "
 
-        mycursor.execute(sql, (name, code, moti, address, rssi, phoneid, dt))
+        mycursor.execute(sql, (name, code, address, rssi, phoneid, dt))
         con.commit()
         con.close()
         return "Succeded"
@@ -171,7 +171,6 @@ def bluetooth():
     d = json.loads(sData)
     name = d['name']
     code = d['code']
-    moti = d['moti']
     address = d['address']
     rssi = d['rssi']
     phoneid = d['phoneid']
@@ -181,7 +180,7 @@ def bluetooth():
         date_time_obj = datetime. strptime(dt, '%d/%m/%y %H:%M:%S')
     except Exception as ex:
         print(ex)
-    return InsertBluetooth(name, code, moti,  address, rssi, phoneid, date_time_obj)
+    return InsertBluetooth(name, code,  address, rssi, phoneid, date_time_obj)
 
 # Post
 # http://127.0.0.1:5000/config
