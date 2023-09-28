@@ -10,12 +10,6 @@ import random
 
 app = Flask(__name__)
 
-server = 'dblocator.database.windows.net'
-database = 'locatorserver'
-username = 'AdminLocator'
-password = 'LovelyLocator1!'
-driver = '{ODBC Driver 17 for SQL Server}'
-
 sCon = 'DRIVER='+driver+';SERVER=tcp:'+server + \
     ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password
 
