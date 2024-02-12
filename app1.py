@@ -9,16 +9,17 @@ import random
 # version zzzz
 
 app = Flask(__name__)
-
-server = 'dblocator.database.windows.net'
+server = 'dblocator.database.windows.net,1433'
 database = 'locatorserver'
 username = 'AdminLocator'
 password = 'LovelyLocator1!'
-driver = '{ODBC Driver 17 for SQL Server}'
+driver = '{ODBC Driver 18 for SQL Server}'
 
+conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+    
 sCon = 'DRIVER='+driver+';SERVER=tcp:'+server + \
     ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password
-
+sCon = conn_str
 
 def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
     try:
