@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01de8f9c-d9f8-40b1-8e1c-7eeee9b1ffa0" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/python-docs-hello-world.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/python-docs-hello-world.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/master_locatorwb.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/master_locatorwb.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app1.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,11 +44,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/app.py</url>
-          <line>367</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/app.py</url>
           <line>351</line>
