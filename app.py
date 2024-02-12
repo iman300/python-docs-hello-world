@@ -15,11 +15,8 @@ username = 'AdminLocator'
 password = 'LovelyLocator1!'
 driver = '{ODBC Driver 18 for SQL Server}'
 
-conn_str = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+sCon = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
     
-sCon = 'DRIVER='+driver+';SERVER=tcp:'+server + \
-    ';PORT=1433;DATABASE='+database+';UID='+username+';PWD=' + password
-sCon = conn_str
 
 def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
     try:
@@ -381,4 +378,4 @@ def hello():
         return (str(ex))
 
 
-app.run(host='0.0.0.0', port=8000)
+app.run()
