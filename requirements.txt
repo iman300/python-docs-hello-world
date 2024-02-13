@@ -1,4 +1,4 @@
 Flask
 pyodbc
 datetime
-mysql
+mysql-connector-python

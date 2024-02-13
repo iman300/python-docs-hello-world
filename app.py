@@ -77,8 +77,9 @@ def GetDefaultConfigLine(phoneid):
 
 def GetlastConfigLine(phoneid):
     try:
-        con = pyodbc.connect(sCon)
-        mycursor = con.cursor()
+        #con = pyodbc.connect(sCon)
+        #mycursor = con.cursor()
+        mycursor =  aws_conn.cursor()
         sql = "SELECT top 1 * FROM config where phoneid='"+phoneid+"' order by id desc"
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
@@ -107,7 +108,7 @@ def GetlastConfigLine(phoneid):
             dic['ActivateWifiDuration'] = row[13]
             dic['ActivateBlueToothDuration'] = row[14]
 
-        con.close()
+        #con.close()
         s = json.dumps(dic)
         return s
     except Exception as ex:
@@ -434,8 +435,9 @@ def Log():
 @ app.route("/")
 def hello():
     try:
-        con = pyodbc.connect(sCon)
-        cursor = con.cursor()
+        #con = pyodbc.connect(sCon)
+        #cursor = con.cursor()
+        cursor =  aws_conn.cursor()
         cursor.execute("SELECT * FROM test")
         rows = cursor.fetchall()
         s = ""
@@ -444,7 +446,7 @@ def hello():
                 s += str(field)+" "
 
         print("Handling request to home page.")
-        con.close()
+        #con.close()
         return "Hello, Azure2!"+s
     except Exception as ex:
         return (str(ex))
