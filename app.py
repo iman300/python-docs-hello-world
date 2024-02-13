@@ -43,12 +43,12 @@ def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
         con.close()
         '''
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (?,?,?,?,?,?)"
+        insert_sql = "INSERT INTO Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (%s,%s,%s,%s,%s,%s)"
         cursor.execute(insert_sql, (ssid, mac, level, phoneid, dt, capabilities))
         aws_conn.commit()
         cursor.close()
         aws_conn.close()
-        
+
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -137,7 +137,7 @@ def InsertConfig(phoneid, wifiInterval,
         insert_sql = "INSERT INTO config(phoneid, wifiInterval," + \
             "BluetoothInterval, locationInterval,checkConfigInterval,StartTimeActivation," +\
             "StopTimeActivation,AllTime,ActivateWifi,ActivateBlueTooth,ActivateWifiDateTime,ActivateBlueToothDateTime,ActivateWifiDuration,ActivateBlueToothDuration)" +\
-            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?) "
+            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql, (phoneid, wifiInterval,
                                BluetoothInterval, locationInterval, checkConfigInterval, StartTimeActivation,
                                StopTimeActivation, AllTime, ActivateWifi, ActivateBlueTooth, ActivateWifiDateTime, ActivateBlueToothDateTime, ActivateWifiDuration, ActivateBlueToothDuration))
@@ -163,7 +163,7 @@ def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, m
         con.close()'''
 
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO phone(phoneid, phonenumber, imei, serialNumber, simOperator,dt, manufacturer, model, version, versionRelease) VALUES (?,?,?,?,?,?,?,?,?,?) "
+        insert_sql = "INSERT INTO phone(phoneid, phonenumber, imei, serialNumber, simOperator,dt, manufacturer, model, version, versionRelease) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql, (phoneid, phonenumber, imei,
                          serialNumber, simOperator, dt, manufacturer, model, version, versionRelease))
         aws_conn.commit()
@@ -187,7 +187,7 @@ def InsertBluetooth(name, code, address, rssi, phoneid, dt):
         con.close()'''
 
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (?,?,?,?,?,?) "
+        insert_sql = "INSERT INTO Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql,  (name, code, address, rssi, phoneid, dt))
         aws_conn.commit()
         cursor.close()
@@ -210,7 +210,7 @@ def InsertLocation(lot, lat, dt, phoneid, accuracy, speed, sendTime):
         con.close()
 '''
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO Location(Longitute, Latitude,dt,phoneid,accuracy,speed,SendTime) VALUES (?,?,?,?,?,?,?) "
+        insert_sql = "INSERT INTO Location(Longitute, Latitude,dt,phoneid,accuracy,speed,SendTime) VALUES (%s,%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql, (lot, lat, dt, phoneid,
                          accuracy, speed, sendTime))
         aws_conn.commit()
@@ -407,7 +407,7 @@ def InsertLoLog(phoneid, dt, msg):
         con.close()'''
 
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO Logs(phoneid, dt, msg) VALUES (?,?,?) "
+        insert_sql = "INSERT INTO Logs(phoneid, dt, msg) VALUES (%s, %s, %s) "
         cursor.execute(insert_sql, (phoneid, dt, msg))
         aws_conn.commit()
         cursor.close()
