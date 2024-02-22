@@ -43,7 +43,7 @@ def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
         con.close()
         '''
         cursor = aws_conn.cursor()
-        insert_sql = "INSERT INTO Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (%s,%s,%s,%s,%s,%s)"
+        insert_sql = "INSERT INTO wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (%s,%s,%s,%s,%s,%s)"
         cursor.execute(insert_sql, (ssid, mac, level, phoneid, dt, capabilities))
         aws_conn.commit()
         cursor.close()
