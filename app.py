@@ -42,6 +42,8 @@ def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
         con.commit()
         con.close()
         '''
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (%s,%s,%s,%s,%s,%s)"
         cursor.execute(insert_sql, (ssid, mac, level, phoneid, dt, capabilities))
@@ -79,6 +81,8 @@ def GetlastConfigLine(phoneid):
     try:
         #con = pyodbc.connect(sCon)
         #mycursor = con.cursor()
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         mycursor =  aws_conn.cursor()
         sql = "SELECT top 1 * FROM config where phoneid='"+phoneid+"' order by id desc"
         mycursor.execute(sql)
@@ -132,7 +136,8 @@ def InsertConfig(phoneid, wifiInterval,
         con.commit()
         con.close()'''
 
-
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO config(phoneid, wifiInterval," + \
             "BluetoothInterval, locationInterval,checkConfigInterval,StartTimeActivation," +\
@@ -161,7 +166,8 @@ def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, m
                          serialNumber, simOperator, dt, manufacturer, model, version, versionRelease))
         con.commit()
         con.close()'''
-
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO phone(phoneid, phonenumber, imei, serialNumber, simOperator,dt, manufacturer, model, version, versionRelease) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql, (phoneid, phonenumber, imei,
@@ -185,7 +191,8 @@ def InsertBluetooth(name, code, address, rssi, phoneid, dt):
         mycursor.execute(sql, (name, code, address, rssi, phoneid, dt))
         con.commit()
         con.close()'''
-
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql,  (name, code, address, rssi, phoneid, dt))
@@ -209,6 +216,8 @@ def InsertLocation(lot, lat, dt, phoneid, accuracy, speed, sendTime):
         con.commit()
         con.close()
 '''
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO Location(Longitute, Latitude,dt,phoneid,accuracy,speed,SendTime) VALUES (%s,%s,%s,%s,%s,%s,%s) "
         cursor.execute(insert_sql, (lot, lat, dt, phoneid,
@@ -405,7 +414,8 @@ def InsertLoLog(phoneid, dt, msg):
         mycursor.execute(sql, (phoneid, dt, msg))
         con.commit()
         con.close()'''
-
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor = aws_conn.cursor()
         insert_sql = "INSERT INTO Logs(phoneid, dt, msg) VALUES (%s, %s, %s) "
         cursor.execute(insert_sql, (phoneid, dt, msg))
@@ -437,6 +447,8 @@ def hello():
     try:
         #con = pyodbc.connect(sCon)
         #cursor = con.cursor()
+        if not aws_conn.is_connected():
+            aws_conn.reconnect()
         cursor =  aws_conn.cursor()
         cursor.execute("SELECT * FROM test")
         rows = cursor.fetchall()
