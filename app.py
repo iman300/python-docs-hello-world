@@ -47,7 +47,7 @@ def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
         cursor.execute(insert_sql, (ssid, mac, level, phoneid, dt, capabilities))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
 
         return "Succeded"
     except Exception as ex:
@@ -143,7 +143,7 @@ def InsertConfig(phoneid, wifiInterval,
                                StopTimeActivation, AllTime, ActivateWifi, ActivateBlueTooth, ActivateWifiDateTime, ActivateBlueToothDateTime, ActivateWifiDuration, ActivateBlueToothDuration))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
 
 
         return "Succeded"
@@ -168,7 +168,7 @@ def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, m
                          serialNumber, simOperator, dt, manufacturer, model, version, versionRelease))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
 
 
         return "Succeded"
@@ -191,7 +191,7 @@ def InsertBluetooth(name, code, address, rssi, phoneid, dt):
         cursor.execute(insert_sql,  (name, code, address, rssi, phoneid, dt))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
 
         return "Succeded"
     except Exception as ex:
@@ -215,7 +215,7 @@ def InsertLocation(lot, lat, dt, phoneid, accuracy, speed, sendTime):
                          accuracy, speed, sendTime))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
 
 
         return "Succeded2"
@@ -411,7 +411,7 @@ def InsertLoLog(phoneid, dt, msg):
         cursor.execute(insert_sql, (phoneid, dt, msg))
         aws_conn.commit()
         cursor.close()
-        aws_conn.close()
+        #aws_conn.close()
         return "Succeded"
     except Exception as ex:
         return str(ex)
