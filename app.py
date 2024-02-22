@@ -4,22 +4,36 @@ from flask import Flask, request,  jsonify
 from datetime import datetime
 import pyodbc
 import random
+import mysql.connector
 
 # test ver
 # version zzzz
 
 app = Flask(__name__)
-server = 'dblocator.database.windows.net,1433'
-database = 'locatorserver'
-username = 'AdminLocator'
-password = 'LovelyLocator1!'
-driver = '{ODBC Driver 18 for SQL Server}'
+#server = 'dblocator.database.windows.net,1433'
+#database = 'locatorserver'
+#username = 'AdminLocator'
+#password = 'LovelyLocator1!'
+#driver = '{ODBC Driver 18 for SQL Server}'
 
-sCon = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-    
+
+#sCon = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
+
+
+host = "dblocator-aws.c5soywg2oomm.eu-north-1.rds.amazonaws.com"
+database = "locatorserver"
+user = "admin"
+password = "LovelyLocator1!"
+aws_conn = mysql.connector.connect(
+        host=host,
+        database=database,
+        user=user,
+        password=password
+    )
 
 def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
     try:
+        '''
         con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (?,?,?,?,?,?) "
@@ -27,6 +41,14 @@ def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
         mycursor.execute(sql, (ssid, mac, level, phoneid, dt, capabilities))
         con.commit()
         con.close()
+        '''
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO Wifi(ssid, mac, level, phoneid,dt,capabilities) VALUES (%s,%s,%s,%s,%s,%s)"
+        cursor.execute(insert_sql, (ssid, mac, level, phoneid, dt, capabilities))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
+
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -55,8 +77,9 @@ def GetDefaultConfigLine(phoneid):
 
 def GetlastConfigLine(phoneid):
     try:
-        con = pyodbc.connect(sCon)
-        mycursor = con.cursor()
+        #con = pyodbc.connect(sCon)
+        #mycursor = con.cursor()
+        mycursor =  aws_conn.cursor()
         sql = "SELECT top 1 * FROM config where phoneid='"+phoneid+"' order by id desc"
         mycursor.execute(sql)
         myresult = mycursor.fetchall()
@@ -85,7 +108,7 @@ def GetlastConfigLine(phoneid):
             dic['ActivateWifiDuration'] = row[13]
             dic['ActivateBlueToothDuration'] = row[14]
 
-        con.close()
+        #con.close()
         s = json.dumps(dic)
         return s
     except Exception as ex:
@@ -96,7 +119,7 @@ def InsertConfig(phoneid, wifiInterval,
                  BluetoothInterval, locationInterval, checkConfigInterval, StartTimeActivation,
                  StopTimeActivation, AllTime, ActivateWifi, ActivateBlueTooth, ActivateWifiDateTime, ActivateBlueToothDateTime, ActivateWifiDuration, ActivateBlueToothDuration):
     try:
-        con = pyodbc.connect(sCon)
+        '''con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.config(phoneid, wifiInterval," + \
             "BluetoothInterval, locationInterval,checkConfigInterval,StartTimeActivation," +\
@@ -107,7 +130,22 @@ def InsertConfig(phoneid, wifiInterval,
                                BluetoothInterval, locationInterval, checkConfigInterval, StartTimeActivation,
                                StopTimeActivation, AllTime, ActivateWifi, ActivateBlueTooth, ActivateWifiDateTime, ActivateBlueToothDateTime, ActivateWifiDuration, ActivateBlueToothDuration))
         con.commit()
-        con.close()
+        con.close()'''
+
+
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO config(phoneid, wifiInterval," + \
+            "BluetoothInterval, locationInterval,checkConfigInterval,StartTimeActivation," +\
+            "StopTimeActivation,AllTime,ActivateWifi,ActivateBlueTooth,ActivateWifiDateTime,ActivateBlueToothDateTime,ActivateWifiDuration,ActivateBlueToothDuration)" +\
+            " VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+        cursor.execute(insert_sql, (phoneid, wifiInterval,
+                               BluetoothInterval, locationInterval, checkConfigInterval, StartTimeActivation,
+                               StopTimeActivation, AllTime, ActivateWifi, ActivateBlueTooth, ActivateWifiDateTime, ActivateBlueToothDateTime, ActivateWifiDuration, ActivateBlueToothDuration))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
+
+
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -115,14 +153,24 @@ def InsertConfig(phoneid, wifiInterval,
 
 def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, manufacturer, model, version, versionRelease):
     try:
-        con = pyodbc.connect(sCon)
+        '''con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.phone(phoneid, phonenumber, imei, serialNumber, simOperator,dt, manufacturer, model, version, versionRelease) VALUES (?,?,?,?,?,?,?,?,?,?) "
 
         mycursor.execute(sql, (phoneid, phonenumber, imei,
                          serialNumber, simOperator, dt, manufacturer, model, version, versionRelease))
         con.commit()
-        con.close()
+        con.close()'''
+
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO phone(phoneid, phonenumber, imei, serialNumber, simOperator,dt, manufacturer, model, version, versionRelease) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+        cursor.execute(insert_sql, (phoneid, phonenumber, imei,
+                         serialNumber, simOperator, dt, manufacturer, model, version, versionRelease))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
+
+
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -130,13 +178,21 @@ def InsertPhoneInfo(phoneid, phonenumber, imei, serialNumber, simOperator, dt, m
 
 def InsertBluetooth(name, code, address, rssi, phoneid, dt):
     try:
-        con = pyodbc.connect(sCon)
+        '''con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (?,?,?,?,?,?) "
 
         mycursor.execute(sql, (name, code, address, rssi, phoneid, dt))
         con.commit()
-        con.close()
+        con.close()'''
+
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO Bluetooth(namex, codex, addressx,rssi,phoneid,dt) VALUES (%s,%s,%s,%s,%s,%s) "
+        cursor.execute(insert_sql,  (name, code, address, rssi, phoneid, dt))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
+
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -144,7 +200,7 @@ def InsertBluetooth(name, code, address, rssi, phoneid, dt):
 
 def InsertLocation(lot, lat, dt, phoneid, accuracy, speed, sendTime):
     try:
-        con = pyodbc.connect(sCon)
+        '''con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.Location(Longitute, Latitude,dt,phoneid,accuracy,speed,SendTime) VALUES (?,?,?,?,?,?,?) "
 
@@ -152,6 +208,16 @@ def InsertLocation(lot, lat, dt, phoneid, accuracy, speed, sendTime):
                          accuracy, speed, sendTime))
         con.commit()
         con.close()
+'''
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO Location(Longitute, Latitude,dt,phoneid,accuracy,speed,SendTime) VALUES (%s,%s,%s,%s,%s,%s,%s) "
+        cursor.execute(insert_sql, (lot, lat, dt, phoneid,
+                         accuracy, speed, sendTime))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
+
+
         return "Succeded2"
     except Exception as ex:
         return str(ex)
@@ -332,13 +398,20 @@ def getName():
 
 def InsertLoLog(phoneid, dt, msg):
     try:
-        con = pyodbc.connect(sCon)
+        '''con = pyodbc.connect(sCon)
         mycursor = con.cursor()
         sql = "INSERT INTO dbo.Logs(phoneid, dt, msg) VALUES (?,?,?) "
 
         mycursor.execute(sql, (phoneid, dt, msg))
         con.commit()
-        con.close()
+        con.close()'''
+
+        cursor = aws_conn.cursor()
+        insert_sql = "INSERT INTO Logs(phoneid, dt, msg) VALUES (%s, %s, %s) "
+        cursor.execute(insert_sql, (phoneid, dt, msg))
+        aws_conn.commit()
+        cursor.close()
+        aws_conn.close()
         return "Succeded"
     except Exception as ex:
         return str(ex)
@@ -362,8 +435,9 @@ def Log():
 @ app.route("/")
 def hello():
     try:
-        con = pyodbc.connect(sCon)
-        cursor = con.cursor()
+        #con = pyodbc.connect(sCon)
+        #cursor = con.cursor()
+        cursor =  aws_conn.cursor()
         cursor.execute("SELECT * FROM test")
         rows = cursor.fetchall()
         s = ""
@@ -372,7 +446,7 @@ def hello():
                 s += str(field)+" "
 
         print("Handling request to home page.")
-        con.close()
+        #con.close()
         return "Hello, Azure2!"+s
     except Exception as ex:
         return (str(ex))
