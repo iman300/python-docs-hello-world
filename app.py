@@ -16,7 +16,7 @@ password = 'LovelyLocator1!'
 driver = '{ODBC Driver 18 for SQL Server}'
 
 sCon = f'DRIVER={driver};SERVER={server};DATABASE={database};UID={username};PWD={password};'
-
+    
 
 def InsertWifi(ssid, mac, level, phoneid, dt, capabilities):
     try:
